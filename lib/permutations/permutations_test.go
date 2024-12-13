@@ -142,6 +142,7 @@ func TestPermutationInversions(t *testing.T) {
 		permutation []int
 		want        int
 	}{
+		{5, []int{2, 3, 5, 1, 4}, 4},
 		{7, []int{6, 5, 1, 2, 7, 4, 3}, 12},
 		{7, []int{5, 6, 4, 7, 2, 1, 3}, 15},
 	}
