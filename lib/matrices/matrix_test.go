@@ -29,5 +29,29 @@ func TestNewMatrix(t *testing.T) {
 			}
 		})
 	}
+}
 
+// Проверка квадратной матрицы
+func TestMatrixIsSquare(t *testing.T) {
+	tests := []struct {
+		elements [][]float64
+		want     bool
+	}{
+		{[][]float64{{1, 2, 3}, {4, 5, 6}}, false}, // Не квадратная
+		{[][]float64{{1, 2}, {3, 4}}, true},        // Квадратная
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("%v", tt.elements)
+		t.Run(testname, func(t *testing.T) {
+			matrix, err := NewMatrix(tt.elements)
+			if err != nil {
+				t.Fatalf("got an error while initializing Matrix: %v", err)
+			}
+			got := matrix.IsSquare()
+			if got != tt.want {
+				t.Errorf("got %v, want %v", err, tt.want)
+			}
+		})
+	}
 }

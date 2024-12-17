@@ -25,3 +25,9 @@ func NewMatrix(elements [][]float64) (Matrix, error) {
 	}
 	return Matrix{rows, columns, elements}, nil
 }
+
+// Возвращает true, если матрица является квадратной
+// (количество строк совпадает с количеством столбцов).
+func (m Matrix) IsSquare() bool {
+	return m.rows == m.columns
+}
