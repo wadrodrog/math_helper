@@ -17,3 +17,8 @@ func InvalidMatrixError(row int) error {
 		1, fmt.Sprintf("Invalid matrix at row=%d", row),
 	}
 }
+
+// Матрица должна быть квадратной.
+func NotSquareMatrixError() error {
+	return &matrixError{2, "Matrix must be square"}
+}
