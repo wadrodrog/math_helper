@@ -9,6 +9,15 @@ type Matrix struct {
 	elements [][]float64 // Элементы матрицы
 }
 
+// Возвращает нулевую матрицу.
+func ZeroMatrix(rows int, columns int) Matrix {
+	elements := make([][]float64, rows)
+	for i := range elements {
+		elements[i] = make([]float64, columns)
+	}
+	return Matrix{rows, columns, elements}
+}
+
 // Возвращает матрицу действительных чисел.
 //
 // Возвращает ошибку, если в матрице не одинаковое количество столбцов.
