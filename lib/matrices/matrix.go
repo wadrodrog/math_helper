@@ -1,5 +1,7 @@
 // Пакет matrices предоставляет реализацию алгоритмов матриц:
 //   - Создание матрицы
+//   - Умножение и деление на число
+//   - Транспонирование матрицы
 package matrices
 
 // Матрица действительных чисел
@@ -57,6 +59,18 @@ func (m *Matrix) DivideByNumber(number float64) {
 			m.elements[i][j] /= number
 		}
 	}
+}
+
+// Возвращает транспонированную матрицу, то есть матрицу, в которой строки
+// записаны как столбцы, а столбцы - как строки.
+func (m Matrix) Transpose() Matrix {
+	transposed := ZeroMatrix(m.columns, m.rows)
+	for i := 0; i < m.rows; i++ {
+		for j := 0; j < m.columns; j++ {
+			transposed.elements[j][i] = m.elements[i][j]
+		}
+	}
+	return transposed
 }
 
 // Возвращает определитель квадратной матрицы.

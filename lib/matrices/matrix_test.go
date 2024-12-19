@@ -126,3 +126,27 @@ func TestMatrixNumbersOperations(t *testing.T) {
 	}
 }
 
+// Транспонирование матрицы
+func TestMatrixTranspose(t *testing.T) {
+	tests := []struct {
+		elements [][]float64
+		want     [][]float64
+	}{
+		{[][]float64{{7, 3, -12, 0, 34}}, [][]float64{{7}, {3}, {-12}, {0}, {34}}},
+		{[][]float64{{-1, 0, -2}, {-5, 4, -7}, {6, -4, -6}}, [][]float64{{-1, -5, 6}, {0, 4, -4}, {-2, -7, -6}}},
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("%v", tt.elements)
+		t.Run(testname, func(t *testing.T) {
+			matrix, err := NewMatrix(tt.elements)
+			if err != nil {
+				t.Fatalf("got an error while initializing Matrix: %v", err)
+			}
+			got := matrix.Transpose().elements
+			if fmt.Sprintf("%v", got) != fmt.Sprintf("%v", tt.want) {
+				t.Errorf("got %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
