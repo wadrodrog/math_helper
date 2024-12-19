@@ -2,6 +2,7 @@
 //   - Создание матрицы
 //   - Умножение и деление на число
 //   - Транспонирование матрицы
+//   - Нахождение определителей 1-3 порядков
 package matrices
 
 // Матрица действительных чисел
@@ -35,12 +36,6 @@ func NewMatrix(elements [][]float64) (Matrix, error) {
 		}
 	}
 	return Matrix{rows, columns, elements}, nil
-}
-
-// Возвращает true, если матрица является квадратной
-// (количество строк совпадает с количеством столбцов).
-func (m Matrix) IsSquare() bool {
-	return m.rows == m.columns
 }
 
 // Умножает каждый элемент матрицы на заданное число.
@@ -78,7 +73,7 @@ func (m Matrix) Transpose() Matrix {
 // Возвращает ошибку, если матрица не квадратная.
 func (m *Matrix) Determinator() (float64, error) {
 	// Матрица должна быть квадратной
-	if !m.IsSquare() {
+	if m.rows != m.columns {
 		return 0, NotSquareMatrixError()
 	}
 
