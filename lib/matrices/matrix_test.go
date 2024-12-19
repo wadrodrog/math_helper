@@ -92,3 +92,37 @@ func TestMatrixDeterminator(t *testing.T) {
 		})
 	}
 }
+
+// Действия с числами (умножение, деление)
+func TestMatrixNumbersOperations(t *testing.T) {
+	tests := []struct {
+		elements  [][]float64
+		number    float64
+		operation byte
+		want      [][]float64
+	}{
+		{[][]float64{{12, -1}, {7, 0}}, 3, 0, [][]float64{{36, -3}, {21, 0}}},
+		{[][]float64{{36, -3}, {21, 0}}, 3, 1, [][]float64{{12, -1}, {7, 0}}},
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("%f*%v", tt.number, tt.elements)
+		t.Run(testname, func(t *testing.T) {
+			matrix, err := NewMatrix(tt.elements)
+			if err != nil {
+				t.Fatalf("got an error while initializing Matrix: %v", err)
+			}
+			switch tt.operation {
+			case 0:
+				matrix.MultiplyByNumber(tt.number)
+			case 1:
+				matrix.DivideByNumber(tt.number)
+			}
+			got := matrix.elements
+			if fmt.Sprintf("%v", got) != fmt.Sprintf("%v", tt.want) {
+				t.Errorf("got %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+

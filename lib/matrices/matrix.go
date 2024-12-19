@@ -8,7 +8,6 @@ type Matrix struct {
 	columns  int         // Количество столбцов
 	elements [][]float64 // Элементы матрицы
 }
-}
 
 // Возвращает матрицу действительных чисел.
 //
@@ -33,6 +32,24 @@ func (m Matrix) IsSquare() bool {
 	return m.rows == m.columns
 }
 
+// Умножает каждый элемент матрицы на заданное число.
+func (m *Matrix) MultiplyByNumber(number float64) {
+	for i := 0; i < m.rows; i++ {
+		for j := 0; j < m.columns; j++ {
+			m.elements[i][j] *= number
+		}
+	}
+}
+
+// Делит каждый элемент матрицы на заданное число.
+func (m *Matrix) DivideByNumber(number float64) {
+	for i := 0; i < m.rows; i++ {
+		for j := 0; j < m.columns; j++ {
+			m.elements[i][j] /= number
+		}
+	}
+}
+
 // Возвращает определитель квадратной матрицы.
 //
 // Возвращает ошибку, если матрица не квадратная.
@@ -54,7 +71,4 @@ func (m *Matrix) Determinator() (float64, error) {
 	}
 
 	return determinator, nil
-}
-	}
-
 }
