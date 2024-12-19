@@ -69,6 +69,7 @@ func TestMatrixDeterminator(t *testing.T) {
 		{[][]float64{{5}}, 5, nil},
 		{[][]float64{{11, -3}, {-15, -2}}, -67, nil},
 		{[][]float64{{1, -2, 3}, {4, 0, 6}, {-7, 8, 9}}, 204, nil},
+		{[][]float64{{2, 5, 4}, {1, 3, 2}, {2, 10, 9}}, 5, nil},
 	}
 
 	for _, tt := range tests {
