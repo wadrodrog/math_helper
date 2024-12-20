@@ -27,3 +27,7 @@ func NotSquareMatrixError() error {
 func NotSameSizeError(rows1 int, columns1 int, rows2 int, columns2 int) error {
 	return &matrixError{3, fmt.Sprintf("Matrix sizes are not the same %dx%d != %dx%d", rows1, columns1, rows2, columns2)}
 }
+
+func UnableToMultiplyError(columns1 int, rows2 int) error {
+	return &matrixError{4, fmt.Sprintf("First matrix columns (%d) and second matrix rows (%d) are not equal", columns1, rows2)}
+}

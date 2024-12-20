@@ -132,6 +132,47 @@ func TestMatrixAddAndSubstract(t *testing.T) {
 	}
 }
 
+// Умножение матриц
+func TestMatrixMultiply(t *testing.T) {
+	tests := []struct {
+		elements1 [][]float64
+		elements2 [][]float64
+		want      [][]float64
+		wantErr   error
+	}{
+		{[][]float64{{3}, {-1}}, [][]float64{{-2, 1}, {5, 4}}, [][]float64{}, UnableToMultiplyError(1, 2)},
+		{[][]float64{{-2, 1}, {5, 4}}, [][]float64{{3}, {-1}}, [][]float64{{-7}, {11}}, nil},
+		{[][]float64{{2, -3}, {4, -6}}, [][]float64{{9, -6}, {6, -4}}, [][]float64{{0, 0}, {0, 0}}, nil},
+		{[][]float64{{9, -6}, {6, -4}}, [][]float64{{2, -3}, {4, -6}}, [][]float64{{-6, 9}, {-4, 6}}, nil},
+		{[][]float64{{5, 8, -4}, {6, 9, -5}, {4, 7, -3}}, [][]float64{{2}, {-3}, {1}}, [][]float64{{-18}, {-20}, {-16}}, nil},
+		{[][]float64{{5, 8, -4}, {6, 9, -5}, {4, 7, -3}}, [][]float64{{3, 2, 5}, {4, -1, 3}, {9, 6, 5}}, [][]float64{{11, -22, 29}, {9, -27, 32}, {13, -17, 26}}, nil},
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("%vx%v", tt.elements1, tt.elements2)
+		t.Run(testname, func(t *testing.T) {
+			matrix1, err := NewMatrix(tt.elements1)
+			if err != nil {
+				t.Fatalf("got an error while initializing Matrix 1: %v", err)
+			}
+			matrix2, err := NewMatrix(tt.elements2)
+			if err != nil {
+				t.Fatalf("got an error while initializing Matrix 2: %v", err)
+			}
+			got, err := matrix1.MultiplyMatrix(matrix2)
+			if err != nil && tt.wantErr == nil {
+				t.Fatalf("got an error while multiplying Matrix: %v", err)
+			}
+			if err != nil && err.Error() != tt.wantErr.Error() {
+				t.Fatalf("got %v, want %v", err, tt.want)
+			}
+			if err == nil && fmt.Sprintf("%v", got.elements) != fmt.Sprintf("%v", tt.want) {
+				t.Errorf("got %v, want %v", got.elements, tt.want)
+			}
+		})
+	}
+}
+
 // Проверка вычисления определителя матрицы
 func TestMatrixDeterminator(t *testing.T) {
 	tests := []struct {

@@ -4,6 +4,7 @@
 //   - Транспонирование матрицы
 //   - Сложение и вычитание матриц
 //   - Нахождение определителей 1-3 порядков
+//   - Умножение матриц
 package matrices
 
 // Матрица действительных чисел
@@ -89,6 +90,30 @@ func (m *Matrix) AddMatrix(other Matrix, negative bool) error {
 	}
 
 	return nil
+}
+
+// Возвращает матрицу, являющуюся результатом умножения одной текущей матрицы
+// на другую заданную.
+//
+// Возвращает ошибку, если матрицы нельзя перемножить (количество столбцов
+// первой матрицы не количеству строк второй)
+func (m Matrix) MultiplyMatrix(other Matrix) (Matrix, error) {
+	// Число столбцов первой матрицы должно совпадать с числом строк второй
+	if m.columns != other.rows {
+		return Matrix{}, UnableToMultiplyError(m.columns, other.rows)
+	}
+
+	result := ZeroMatrix(m.rows, other.columns)
+
+	for i := 0; i < result.rows; i++ {
+		for j := 0; j < result.columns; j++ {
+			for k := 0; k < m.columns; k++ {
+				result.elements[i][j] += m.elements[i][k] * other.elements[k][j]
+			}
+		}
+	}
+
+	return result, nil
 }
 
 // Возвращает определитель квадратной матрицы.
