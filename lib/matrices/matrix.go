@@ -2,6 +2,7 @@
 //   - Создание матрицы
 //   - Умножение и деление на число
 //   - Транспонирование матрицы
+//   - Сложение и вычитание матриц
 //   - Нахождение определителей 1-3 порядков
 package matrices
 
@@ -66,6 +67,28 @@ func (m Matrix) Transpose() Matrix {
 		}
 	}
 	return transposed
+}
+
+// Прибавляет к каждому элементу матрицы элементы другой матрицы.
+//
+// Если аргумент negative равен true, то будет произведено вычитание матриц.
+func (m *Matrix) AddMatrix(other Matrix, negative bool) error {
+	// У матриц должны быть равно количество строк и столбцов
+	if m.rows != other.rows || m.columns != other.columns {
+		return NotSameSizeError(m.rows, m.columns, other.rows, other.columns)
+	}
+
+	for i := 0; i < m.rows; i++ {
+		for j := 0; j < m.columns; j++ {
+			if negative {
+				m.elements[i][j] -= other.elements[i][j]
+			} else {
+				m.elements[i][j] += other.elements[i][j]
+			}
+		}
+	}
+
+	return nil
 }
 
 // Возвращает определитель квадратной матрицы.

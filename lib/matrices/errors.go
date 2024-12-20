@@ -22,3 +22,8 @@ func InvalidMatrixError(row int) error {
 func NotSquareMatrixError() error {
 	return &matrixError{2, "Matrix must be square"}
 }
+
+// Матрицы должны быть равны по размеру.
+func NotSameSizeError(rows1 int, columns1 int, rows2 int, columns2 int) error {
+	return &matrixError{3, fmt.Sprintf("Matrix sizes are not the same %dx%d != %dx%d", rows1, columns1, rows2, columns2)}
+}

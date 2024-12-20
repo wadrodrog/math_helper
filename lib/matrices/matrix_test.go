@@ -89,6 +89,49 @@ func TestMatrixTranspose(t *testing.T) {
 	}
 }
 
+// Сложение и вычитание матриц
+func TestMatrixAddAndSubstract(t *testing.T) {
+	tests := []struct {
+		elements1 [][]float64
+		elements2 [][]float64
+		negative  bool
+		want      [][]float64
+		wantErr   error
+	}{
+		{[][]float64{{12, -1}, {7, 0}}, [][]float64{{-1, 0, -2}, {-5, 4, -7}, {6, -4, -6}}, false, [][]float64{{12, -1}, {7, 0}}, NotSameSizeError(2, 2, 3, 3)},
+		{[][]float64{{12, -1}, {-5, 0}}, [][]float64{{-4, -3}, {15, 7}}, false, [][]float64{{8, -4}, {10, 7}}, nil},
+		{[][]float64{{3, 5, -17}, {-1, 0, 10}}, [][]float64{{-4, 3, -15}, {-5, -7, 0}}, true, [][]float64{{7, 2, -2}, {4, 7, 10}}, nil},
+	}
+
+	for _, tt := range tests {
+		sign := "+"
+		if tt.negative {
+			sign = "-"
+		}
+		testname := fmt.Sprintf("%v%s%v", tt.elements1, sign, tt.elements2)
+		t.Run(testname, func(t *testing.T) {
+			matrix1, err := NewMatrix(tt.elements1)
+			if err != nil {
+				t.Fatalf("got an error while initializing Matrix 1: %v", err)
+			}
+			matrix2, err := NewMatrix(tt.elements2)
+			if err != nil {
+				t.Fatalf("got an error while initializing Matrix 2: %v", err)
+			}
+			got := matrix1.AddMatrix(matrix2, tt.negative)
+			if got != nil && tt.wantErr == nil {
+				t.Fatalf("got an error while adding Matrix: %v", err)
+			}
+			if got != nil && got.Error() != tt.wantErr.Error() {
+				t.Fatalf("got %v, want %v", got, tt.want)
+			}
+			if fmt.Sprintf("%v", matrix1.elements) != fmt.Sprintf("%v", tt.want) {
+				t.Errorf("got %v, want %v", matrix1.elements, tt.want)
+			}
+		})
+	}
+}
+
 // Проверка вычисления определителя матрицы
 func TestMatrixDeterminator(t *testing.T) {
 	tests := []struct {
